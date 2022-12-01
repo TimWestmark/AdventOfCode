@@ -1,15 +1,16 @@
 package template
 
-fun main(args: Array<String>) {
-    println(part1())
+fun main() {
+    println("Solution Part 1: " + part1())
+    println("Solution Part 2: " + part2())
     println(part2())
 }
 
-fun part1(): String {
-    return "Solution Part 1"
+fun part1(): Int {
+    return 1
 }
 
 
-fun part2(): String {
-    return "Solution Part 2"
+fun part2(): Int {
+    return 2
 }
