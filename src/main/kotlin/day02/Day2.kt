@@ -1,4 +1,4 @@
-package day2
+package day02
 
 import getInputLines
 import java.lang.IllegalStateException
@@ -48,7 +48,7 @@ fun String.toResult(): Result {
 }
 
 fun input(): List<Match> {
-    return getInputLines("/day2/input.txt").map { line ->
+    return getInputLines("/day02/input.txt").map { line ->
         val inputs = line.split(" ")
         val enemyChoice = inputs[0]
         val myChoice = inputs[1] // For Part 1

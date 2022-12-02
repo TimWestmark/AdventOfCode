@@ -12,7 +12,7 @@ fun input(): List<Int> {
 
     var curElvesWeight = 0
 //    getInputLines("/day1/test-input.txt")
-    getInputLines("/day1/input.txt").forEach { line ->
+    getInputLines("/day01/input.txt").forEach { line ->
             if (line.isBlank()) {
                 weights.add(curElvesWeight)
                 curElvesWeight = 0
