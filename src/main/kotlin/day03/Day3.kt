@@ -1,10 +1,19 @@
 package day03
 
 import getInputLines
+import kotlin.system.measureTimeMillis
 
 fun main() {
-    println("Solution Part 1: ${part1()}")
-    println("Solution Part 2: ${part2()}")
+    val timeInMillisPart1 = measureTimeMillis {
+        println("Solution Part 1: ${part1()}")
+    }
+
+    val timeInMillisPart2 = measureTimeMillis {
+        println("Solution Part 2: ${part2()}")
+    }
+
+    println("(The part1 operation took $timeInMillisPart1 ms)")
+    println("(The part2 operation took $timeInMillisPart2 ms)")
 }
 
 fun input(): List<Pair<String, String>> {
