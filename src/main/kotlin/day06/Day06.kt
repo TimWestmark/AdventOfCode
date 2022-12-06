@@ -31,7 +31,7 @@ fun allParts(distinctChars: Int): Int {
     while (solution == 0) {
         val chars = line.substring(index, index + distinctChars)
         if (chars.toSet().size == distinctChars) {
-            solution = index+distinctChars
+            solution = index + distinctChars
         }
         index++
     }

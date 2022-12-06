@@ -14,12 +14,10 @@ fun main() {
 
     println("(The part1 operation took $timeInMillisPart1 ms)")
     println("(The part2 operation took $timeInMillisPart2 ms)")
-
-
 }
 
 data class Instruction (
-    val numberOfCreates: Int,
+    val numberOfCrates: Int,
     val from: Int,
     val to: Int
 )
@@ -40,28 +38,22 @@ fun input(): Pair<Map<Int, ArrayDeque<Char>>, List<Instruction>> {
     )
 
     allTheLines.subList(0,8).forEach { line ->
-
         val lineElements = line.chunked(4)
         lineElements.forEachIndexed { index, content ->
             if (content.startsWith("[")) {
                 stacks[index+1]!!.addFirst(content[1])
             }
         }
-
-
-
-
     }
 
     val instructions = allTheLines.subList(10, allTheLines.size).map {line ->
         val lineParts = line.split(" ")
         Instruction(
-            lineParts[1].toInt(),
-            lineParts[3].toInt(),
-            lineParts[5].toInt(),
+            numberOfCrates = lineParts[1].toInt(),
+            from = lineParts[3].toInt(),
+            to = lineParts[5].toInt(),
         )
     }
-
 
     return Pair(stacks, instructions)
 }
@@ -72,7 +64,7 @@ fun part1(): String {
     val instructions = input.second
 
     instructions.forEach { instruction ->
-        repeat(instruction.numberOfCreates) {
+        repeat(instruction.numberOfCrates) {
             val removedElement = stacks[instruction.from]!!.last()
             stacks[instruction.from]!!.removeLast()
             stacks[instruction.to]!!.addLast(removedElement)
@@ -95,7 +87,7 @@ fun part2(): String {
     instructions.forEach { instruction ->
 
         val removedElements: MutableList<Char> = mutableListOf()
-        repeat(instruction.numberOfCreates) {
+        repeat(instruction.numberOfCrates) {
             removedElements.add(stacks[instruction.from]!!.last())
             stacks[instruction.from]!!.removeLast()
         }
