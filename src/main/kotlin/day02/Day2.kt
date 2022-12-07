@@ -1,20 +1,13 @@
 package day02
 
 import getInputLines
-import java.lang.IllegalStateException
-import kotlin.system.measureTimeMillis
+import printAndMeasureResults
 
 fun main() {
-    val timeInMillisPart1 = measureTimeMillis {
-        println("Solution Part 1: ${part1()}")
-    }
-
-    val timeInMillisPart2 = measureTimeMillis {
-        println("Solution Part 2: ${part2()}")
-    }
-
-    println("(The part1 operation took $timeInMillisPart1 ms)")
-    println("(The part2 operation took $timeInMillisPart2 ms)")
+    printAndMeasureResults(
+        part1 = { part1() },
+        part2 = { part2() }
+    )
 }
 
 enum class Option {

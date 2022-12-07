@@ -1,19 +1,14 @@
 package day01
 
 import getInputLines
-import kotlin.system.measureTimeMillis
+import printAndMeasureResults
+import java.lang.IllegalStateException
 
 fun main() {
-    val timeInMillisPart1 = measureTimeMillis {
-        println("Solution Part 1: ${part1()}")
-    }
-
-    val timeInMillisPart2 = measureTimeMillis {
-        println("Solution Part 2: ${part2()}")
-    }
-
-    println("(The part1 operation took $timeInMillisPart1 ms)")
-    println("(The part2 operation took $timeInMillisPart2 ms)")
+    printAndMeasureResults(
+        part1 = { part1() },
+        part2 = { part2() }
+    )
 }
 
 fun input(): List<Int> {
@@ -34,14 +29,14 @@ fun input(): List<Int> {
 
 }
 
-fun part1(): Int? {
-    return input().maxOrNull()
+fun part1(): Int {
+    return input().maxOrNull()!!
 }
 
-fun part2(): Int? {
+fun part2(): Int {
 
     val lastIndex = input().lastIndex
-    if (lastIndex <= 2) return null
+    if (lastIndex <= 2) throw IllegalStateException()
 
     val sortedList = input().sorted()
     return sortedList[lastIndex] + sortedList[lastIndex - 1] + sortedList[lastIndex - 2]

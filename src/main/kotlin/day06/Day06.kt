@@ -1,21 +1,13 @@
 package day06
 
 import getInputLines
-import kotlin.system.measureTimeMillis
+import printAndMeasureResults
 
 fun main() {
-    val timeInMillisPart1 = measureTimeMillis {
-        println("Solution Part 1: ${allParts(4)}")
-    }
-
-    val timeInMillisPart2 = measureTimeMillis {
-        println("Solution Part 2: ${allParts(14)}")
-    }
-
-    println("(The part1 operation took $timeInMillisPart1 ms)")
-    println("(The part2 operation took $timeInMillisPart2 ms)")
-
-
+    printAndMeasureResults(
+        part1 = { allParts(4) },
+        part2 = { allParts(14) }
+    )
 }
 
 
