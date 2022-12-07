@@ -19,7 +19,7 @@ fun main() {
 data class Directory(
     val name: String,
     val subDirs: MutableList<Directory>,
-    var parentDir: Directory?,
+    val parentDir: Directory?,
     var size: Int
 )
 
@@ -51,7 +51,7 @@ fun input(): Directory {
 fun Directory.addFilesize(size: Int) {
     this.size += size
     if (parentDir != null) {
-        this.parentDir!!.addFilesize(size)
+        this.parentDir.addFilesize(size)
     }
 }
 
