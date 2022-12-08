@@ -1,4 +1,4 @@
-package day08
+package y2022.day08
 
 import Matrix
 import MatrixUtils

@@ -1,4 +1,4 @@
-package day01
+package y2022.day01
 
 import java.lang.IllegalStateException
 

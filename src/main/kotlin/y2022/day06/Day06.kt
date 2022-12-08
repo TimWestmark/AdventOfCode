@@ -1,4 +1,4 @@
-package day06
+package y2022.day06
 
 fun main() {
     AoCGenerics.printAndMeasureResults(

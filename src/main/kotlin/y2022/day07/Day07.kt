@@ -1,4 +1,4 @@
-package day07
+package y2022.day07
 
 
 fun main() {
