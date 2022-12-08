@@ -13,7 +13,7 @@ fun input(): List<Int> {
     val weights: MutableList<Int> = mutableListOf()
 
     var curElvesWeight = 0
-    AoCGenerics.getInputLines("/day01/input.txt").forEach { line ->
+    AoCGenerics.getInputLines("/y2022/day01/input.txt").forEach { line ->
             if (line.isBlank()) {
                 weights.add(curElvesWeight)
                 curElvesWeight = 0

@@ -9,7 +9,7 @@ fun main() {
 }
 
 fun input(): List<Pair<IntRange, IntRange>> {
-    return AoCGenerics.getInputLines("/day04/input.txt").map { line ->
+    return AoCGenerics.getInputLines("/y2022/day04/input.txt").map { line ->
         Pair(
             IntRange(
                 line.split(",")[0].split("-")[0].toInt(),

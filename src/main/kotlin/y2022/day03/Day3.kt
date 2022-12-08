@@ -8,7 +8,7 @@ fun main() {
 }
 
 fun input(): List<Pair<String, String>> {
-    return AoCGenerics.getInputLines("/day03/input.txt").map { line ->
+    return AoCGenerics.getInputLines("/y2022/day03/input.txt").map { line ->
         Pair(line.substring(0, line.length/2)
             ,line.substring(line.length/2)
         )
@@ -16,7 +16,7 @@ fun input(): List<Pair<String, String>> {
 }
 
 fun input2(): List<List<String>> {
-    return AoCGenerics.getInputLines("/day03/input.txt").chunked(3)
+    return AoCGenerics.getInputLines("/y2022/day03/input.txt").chunked(3)
 }
 
 fun Char.getValue(): Int {

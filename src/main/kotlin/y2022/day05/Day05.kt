@@ -15,7 +15,7 @@ data class Instruction (
 
 fun input(): Pair<Map<Int, ArrayDeque<Char>>, List<Instruction>> {
 
-    val allTheLines = AoCGenerics.getInputLines("/day05/input.txt")
+    val allTheLines = AoCGenerics.getInputLines("/y2022/day05/input.txt")
     val stacks: Map<Int, ArrayDeque<Char>> = mutableMapOf(
         1 to ArrayDeque(),
         2 to ArrayDeque(),

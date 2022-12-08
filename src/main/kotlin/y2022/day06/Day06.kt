@@ -9,7 +9,7 @@ fun main() {
 
 
 fun input(): String {
-    return AoCGenerics.getInputLines("/day06/input.txt").first()
+    return AoCGenerics.getInputLines("/y2022/day06/input.txt").first()
 }
 
 fun allParts(distinctChars: Int): Int {

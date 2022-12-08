@@ -48,7 +48,7 @@ fun String.toResult(): Result {
 }
 
 fun input(): List<Match> {
-    return AoCGenerics.getInputLines("/day02/input.txt").map { line ->
+    return AoCGenerics.getInputLines("/y2022/day02/input.txt").map { line ->
         val inputs = line.split(" ")
         val enemyChoice = inputs[0]
         val myChoice = inputs[1] // For Part 1

@@ -18,7 +18,7 @@ data class Directory(
 fun input(): Directory {
     val root = Directory("/", mutableListOf(), null, 0)
     var currentDir = root
-    AoCGenerics.getInputLines("/day07/input.txt")
+    AoCGenerics.getInputLines("/y2022/day07/input.txt")
         .forEach { line ->
             when {
                 line.startsWith("$ cd /") || line == "$ ls" -> {}
