@@ -1,11 +1,9 @@
 package day01
 
-import getInputLines
-import printAndMeasureResults
 import java.lang.IllegalStateException
 
 fun main() {
-    printAndMeasureResults(
+    AoCGenerics.printAndMeasureResults(
         part1 = { part1() },
         part2 = { part2() }
     )
@@ -15,8 +13,7 @@ fun input(): List<Int> {
     val weights: MutableList<Int> = mutableListOf()
 
     var curElvesWeight = 0
-//    getInputLines("/day1/test-input.txt")
-    getInputLines("/day01/input.txt").forEach { line ->
+    AoCGenerics.getInputLines("/day01/input.txt").forEach { line ->
             if (line.isBlank()) {
                 weights.add(curElvesWeight)
                 curElvesWeight = 0

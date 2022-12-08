@@ -1,10 +1,7 @@
 package day06
 
-import getInputLines
-import printAndMeasureResults
-
 fun main() {
-    printAndMeasureResults(
+    AoCGenerics.printAndMeasureResults(
         part1 = { allParts(4) },
         part2 = { allParts(14) }
     )
@@ -12,8 +9,7 @@ fun main() {
 
 
 fun input(): String {
-    return getInputLines("/day06/input.txt").first()
-//    return getInputLines("/day06/test-input.txt").first()
+    return AoCGenerics.getInputLines("/day06/input.txt").first()
 }
 
 fun allParts(distinctChars: Int): Int {

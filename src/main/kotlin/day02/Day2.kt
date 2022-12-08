@@ -1,10 +1,8 @@
 package day02
 
-import getInputLines
-import printAndMeasureResults
 
 fun main() {
-    printAndMeasureResults(
+    AoCGenerics.printAndMeasureResults(
         part1 = { part1() },
         part2 = { part2() }
     )
@@ -50,7 +48,7 @@ fun String.toResult(): Result {
 }
 
 fun input(): List<Match> {
-    return getInputLines("/day02/input.txt").map { line ->
+    return AoCGenerics.getInputLines("/day02/input.txt").map { line ->
         val inputs = line.split(" ")
         val enemyChoice = inputs[0]
         val myChoice = inputs[1] // For Part 1

@@ -1,17 +1,14 @@
 package day03
 
-import getInputLines
-import printAndMeasureResults
-
 fun main() {
-    printAndMeasureResults(
+    AoCGenerics.printAndMeasureResults(
         part1 = { part1() },
         part2 = { part2() }
     )
 }
 
 fun input(): List<Pair<String, String>> {
-    return getInputLines("/day03/input.txt").map { line ->
+    return AoCGenerics.getInputLines("/day03/input.txt").map { line ->
         Pair(line.substring(0, line.length/2)
             ,line.substring(line.length/2)
         )
@@ -19,7 +16,7 @@ fun input(): List<Pair<String, String>> {
 }
 
 fun input2(): List<List<String>> {
-    return getInputLines("/day03/input.txt").chunked(3)
+    return AoCGenerics.getInputLines("/day03/input.txt").chunked(3)
 }
 
 fun Char.getValue(): Int {

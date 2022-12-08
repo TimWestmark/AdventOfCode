@@ -1,10 +1,7 @@
 package day05
 
-import getInputLines
-import printAndMeasureResults
-
 fun main() {
-    printAndMeasureResults(
+    AoCGenerics.printAndMeasureResults(
         part1 = { part1() },
         part2 = { part2() }
     )
@@ -18,7 +15,7 @@ data class Instruction (
 
 fun input(): Pair<Map<Int, ArrayDeque<Char>>, List<Instruction>> {
 
-    val allTheLines = getInputLines("/day05/input.txt")
+    val allTheLines = AoCGenerics.getInputLines("/day05/input.txt")
     val stacks: Map<Int, ArrayDeque<Char>> = mutableMapOf(
         1 to ArrayDeque(),
         2 to ArrayDeque(),

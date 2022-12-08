@@ -1,9 +1,8 @@
 package template
 
-import printAndMeasureResults
 
 fun main() {
-    printAndMeasureResults(
+    AoCGenerics.printAndMeasureResults(
         part1 = { part1() },
         part2 = { part2() }
     )

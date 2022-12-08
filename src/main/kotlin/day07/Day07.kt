@@ -1,10 +1,8 @@
 package day07
 
-import getInputLines
-import printAndMeasureResults
 
 fun main() {
-    printAndMeasureResults(
+    AoCGenerics.printAndMeasureResults(
         part1 = { part1() },
         part2 = { part2() }
     )
@@ -20,8 +18,7 @@ data class Directory(
 fun input(): Directory {
     val root = Directory("/", mutableListOf(), null, 0)
     var currentDir = root
-    getInputLines("/day07/input.txt")
-//    getInputLines("/day07/test-input.txt")
+    AoCGenerics.getInputLines("/day07/input.txt")
         .forEach { line ->
             when {
                 line.startsWith("$ cd /") || line == "$ ls" -> {}
