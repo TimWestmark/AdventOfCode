@@ -45,7 +45,7 @@ fun transpose(matrix: List<List<Tree>>): List<List<Tree>> {
     }.toList()
 }
 
-fun calculateScenicScore(tree: Tree, x: Int, y: Int, forest: List<List<Tree>> ) {
+fun calculateScenicScore(tree: Tree, spalte: Int, zeile: Int, forest: List<List<Tree>> ) {
     var leftScore = 0
     var upScore = 0
     var rightScore = 0
@@ -53,69 +53,39 @@ fun calculateScenicScore(tree: Tree, x: Int, y: Int, forest: List<List<Tree>> ) 
 
 
     // look left
-    var previousHighest = tree.height
-    for (i in x-1 downTo 0 ) {
+    for (i in spalte-1 downTo 0 ) {
         leftScore++
 
-        if (forest[y][i].height >= previousHighest) {
+        if (forest[zeile][i].height >= tree.height) {
             break
         }
-
-        if (forest[y][i].height <= previousHighest) {
-            previousHighest = forest[y][i].height
-        }
-
-
-
-
     }
 
     // look right
-    previousHighest = tree.height
-    for (i in x+1 until forest[x].size) {
+    for (i in spalte+1 until forest[spalte].size) {
         rightScore++
 
-        if (forest[y][i].height >= previousHighest) {
+        if (forest[zeile][i].height >= tree.height) {
             break
         }
-
-        if (forest[y][i].height <= previousHighest) {
-            previousHighest = forest[y][i].height
-        }
-
-
     }
 
     // look up
-    previousHighest = tree.height
-    for (i in y-1 downTo  0 ) {
+    for (i in zeile-1 downTo  0 ) {
         upScore++
 
-        if (forest[i][x].height >= previousHighest) {
+        if (forest[i][spalte].height >= tree.height) {
             break
         }
-
-        if (forest[i][x].height <= previousHighest) {
-            previousHighest = forest[i][x].height
-        }
-
-
     }
 
     // look down
-    previousHighest = tree.height
-    for (i in y+1 until forest.size) {
+    for (i in zeile+1 until forest.size) {
         downScore++
 
-        if (forest[i][x].height >= previousHighest) {
+        if (forest[i][spalte].height >= tree.height) {
             break
         }
-
-        if (forest[i][x].height <= previousHighest) {
-            previousHighest = forest[i][x].height
-        }
-
-
     }
 
 
@@ -156,16 +126,13 @@ fun part1(): Int {
 fun part2(): Int {
     val forest = input()
 
-    forest.forEachIndexed { indexRow, trees ->
-        trees.forEachIndexed { indexColumn, tree ->
-            calculateScenicScore(tree, indexColumn, indexRow, forest)
+    forest.forEachIndexed { zeile, trees ->
+        trees.forEachIndexed { spalte, tree ->
+            calculateScenicScore(tree, spalte, zeile, forest)
         }
     }
 
-    val test = forest.flatten().maxOf { it.scenicScore }
+    return forest.flatten().maxOf { it.scenicScore }
 
-
-
-    return 3
 
 }
