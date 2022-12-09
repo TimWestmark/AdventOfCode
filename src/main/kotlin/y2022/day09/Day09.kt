@@ -115,17 +115,7 @@ fun part2(): Int {
     start.visitedByTail = true
     var head = start
 
-    val tails: MutableList<Field> = mutableListOf(
-        start,
-        start,
-        start,
-        start,
-        start,
-        start,
-        start,
-        start,
-        start,
-    )
+    val tails: MutableList<Field> = MutableList(9) { start}
 
     commands.forEach { command ->
         repeat(command.steps) {
