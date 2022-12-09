@@ -23,7 +23,7 @@ data class Move(
 )
 
 fun input(): List<Move> {
-    return AoCGenerics.getInputLines("/y2022/day09/test-input.txt").map { line ->
+    return AoCGenerics.getInputLines("/y2022/day09/input.txt").map { line ->
         Move(
             direction = when (line.split(" ")[0]) {
                 "U" -> Direction.UP
@@ -141,8 +141,8 @@ fun part2(): Int {
     val commands = input()
 
 
-    val field = IntRange(0, 4).map { y ->
-        IntRange(0, 5)
+    val field = IntRange(0, 1000).map { y ->
+        IntRange(0, 1000)
             .map { x ->
                 Field(false, x, y)
 
@@ -150,7 +150,7 @@ fun part2(): Int {
     }
 
 
-    val start = field[4][0]
+    val start = field[500][500]
     start.visitedByTail = true
     var head = start
     val tails: MutableList<Field> = mutableListOf(
@@ -188,9 +188,9 @@ fun part2(): Int {
 
 
             tails.last().visitedByTail = true
-            field.print2(head, tails, start)
-            println("")
-            println("")
+//            field.print2(head, tails, start)
+//            println("")
+//            println("")
         }
     }
 
@@ -205,13 +205,12 @@ fun getNewTailCoord(head:Field, tail: Field, direction: Direction, field:List<Li
         // Move the tail vertically
         tail.x == head.x && abs(tail.y - head.y) > 1 -> field[(tail.y + head.y) / 2][tail.x]
 
+
+
         // move diagonally
-        (abs(tail.y - head.y) > 1 || abs(tail.x - head.x) > 1) -> {
-            when (direction) {
-                Direction.UP, Direction.DOWN -> field[(tail.y + head.y) / 2][head.x]
-                Direction.LEFT, Direction.RIGHT -> field[head.y][(tail.x + head.x) / 2]
-            }
-        }
+        abs(tail.y - head.y) > 1 && abs(tail.x - head.x) > 1 -> field[(tail.y + head.y) / 2][(tail.x + head.x) / 2]
+        abs(tail.y - head.y) > 1 -> field[(tail.y + head.y) / 2][head.x]
+        abs(tail.x - head.x) > 1 -> field[head.y][(tail.x + head.x) / 2]
         // Do not move
         else -> return tail
     }
