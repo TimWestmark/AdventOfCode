@@ -17,8 +17,8 @@ data class Tree(
 )
 
 fun input(): Matrix<Tree> {
-    return MatrixUtils.createMatrix(AoCGenerics.getInputLines("/y2022/day08/input.txt")) {
-        it.map { char ->
+    return MatrixUtils.createMatrix(AoCGenerics.getInputLines("/y2022/day08/input.txt")) { _index, row ->
+        row.map { char ->
             Tree(char.digitToInt(), false)
         }
     }

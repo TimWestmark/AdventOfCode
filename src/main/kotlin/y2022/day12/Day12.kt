@@ -1,5 +1,14 @@
 package y2022.day12
 
+import Coord
+import Coordinated
+import Matrix
+import MatrixUtils
+import MatrixUtils.filterMatrixElement
+import MatrixUtils.forEachMatrixElement
+import MatrixUtils.move
+import java.lang.IllegalStateException
+
 
 fun main() {
     AoCGenerics.printAndMeasureResults(
@@ -8,79 +17,52 @@ fun main() {
     )
 }
 
-data class Coord(
-    val x: Int,
-    val y: Int,
-)
-
-fun Coord.left() = Coord(x - 1, y)
-fun Coord.right() = Coord(x + 1, y)
-fun Coord.up() = Coord(x, y + 1)
-fun Coord.down() = Coord(x, y - 1)
-
-fun Coord.go(move: Move) = when (move) {
-    Move.UP -> this.up()
-    Move.DOWN -> this.down()
-    Move.LEFT -> this.left()
-    Move.RIGHT -> this.right()
-}
-
 data class Field(
-    val coord: Coord,
     val elevation: Int,
     var seen: Boolean = false,
-    var seenAfter: Int = Int.MAX_VALUE
 )
 
-enum class Move {
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT
-}
+fun input(): Triple<Matrix<Coordinated<Field>>, Coordinated<Field>, Coordinated<Field>> {
 
-fun input(): Triple<List<Field>, Field, Field> {
+    var start: Coordinated<Field>? = null
+    var target: Coordinated<Field>? = null
 
-    val fields: MutableList<Field> = mutableListOf()
-    var start: Field? = null
-    var target: Field? = null
-    AoCGenerics.getInputLines("/y2022/day12/input.txt").forEachIndexed { y, row ->
-        row.forEachIndexed { x, char ->
-            val field = Field(
-                Coord(
-                    x = x,
-                    y = y
-                ),
-                elevation = when (char) {
-                    'S' -> 0
-                    'E' -> 25
-                    else -> char.code - 97
-                }
+    val field = MatrixUtils.createMatrix(AoCGenerics.getInputLines("/y2022/day12/input.txt")) { y, row ->
+        row.mapIndexed { x, char ->
+            val currentCoord = Coordinated(
+                coord = Coord(x,y),
+                data = Field(
+                    elevation = when (char) {
+                        'S' -> 0
+                        'E' -> 25
+                        else -> char.code - 97
+                    }
+                )
             )
-            fields.add(field)
-            if (char == 'S') start = field
-            if (char == 'E') target = field
 
+            if (char == 'S') start = currentCoord
+            if (char == 'E') target = currentCoord
 
+            currentCoord
         }
     }
 
-    return Triple(fields, start!!, target!!)
-
+    if (start == null || target == null) {
+        throw IllegalStateException("No start or target found!")
+    } else {
+        return Triple(field, start!!, target!!)
+    }
 }
 
-fun List<Field>.getField(coord: Coord): Field? {
-    return this.firstOrNull { it.coord == coord }
-}
+fun getLevel(board: Matrix<Coordinated<Field>>, start:Coordinated<Field>, target: Coordinated<Field>): Int {
+    board.forEachMatrixElement { field -> field.data.seen = false }
 
-fun getLevel(board: List<Field>, start:Field, target: Field): Int {
-    board.forEach { field -> field.seen = false }
     var level = 0
-    val toBeVisited = ArrayDeque<Field?>()
+    val toBeVisited = ArrayDeque<Coordinated<Field>?>()
     toBeVisited.add(start)
     toBeVisited.add(null)
 
-    start.seen = true
+    start.data.seen = true
     while (toBeVisited.isNotEmpty()) {
         val curField = toBeVisited.removeFirst()
 
@@ -95,17 +77,17 @@ fun getLevel(board: List<Field>, start:Field, target: Field): Int {
             return level
         }
 
-        val possibleTargetFields = Move.values()
-            .mapNotNull { move -> board.getField(curField.coord.go(move)) }
+        val possibleTargetFields = MatrixUtils.SimpleDirection.values()
+            .mapNotNull { move -> board.move(curField, move) }
 
         possibleTargetFields
             .filter { f ->
-                f.elevation <= curField.elevation + 1
+                f.data.elevation <= curField.data.elevation + 1
             }
             .forEach { usefulField ->
-                if (!usefulField.seen) {
+                if (!usefulField.data.seen) {
                     toBeVisited.add(usefulField)
-                    usefulField.seen = true
+                    usefulField.data.seen = true
                 }
             }
 
@@ -130,11 +112,11 @@ fun part2(): Int {
     val input = input()
 
     val board = input.first
-    val startPositions = input.first.filter { field -> field.elevation == 0 }
+    val startPositions = input.first.filterMatrixElement { field -> field.data.elevation == 0 }
     val target = input.third
 
     val distances = startPositions.map { getLevel(board, it,  target) }
 
-    return distances.min()
+    return distances.minOrNull()!!
 }
 

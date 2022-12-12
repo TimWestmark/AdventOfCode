@@ -25,6 +25,28 @@ object AoCGenerics {
 
 typealias Matrix<T> = List<List<T>>
 
+data class Coord(
+    val x: Int,
+    val y: Int,
+)
+
+fun Coord.left() = Coord(x - 1, y)
+fun Coord.right() = Coord(x + 1, y)
+fun Coord.up() = Coord(x, y + 1)
+fun Coord.down() = Coord(x, y - 1)
+
+fun Coord.go(move: MatrixUtils.SimpleDirection) = when (move) {
+    MatrixUtils.SimpleDirection.UP -> this.up()
+    MatrixUtils.SimpleDirection.DOWN -> this.down()
+    MatrixUtils.SimpleDirection.LEFT -> this.left()
+    MatrixUtils.SimpleDirection.RIGHT -> this.right()
+}
+
+data class Coordinated<T> (
+    val coord: Coord,
+    val data: T
+)
+
 object MatrixUtils {
 
     /**
@@ -35,9 +57,9 @@ object MatrixUtils {
      * @return 2D-List of target type [T]
      */
 
-    fun <T, I> createMatrix(input: List<I>, transform: (line: I) -> List<T>): Matrix<T> {
-        return input.map {
-            transform(it)
+    fun <T, I> createMatrix(input: List<I>, transform: (index: Int, line: I) -> List<T>): Matrix<T> {
+        return input.mapIndexed { index, it ->
+            transform(index, it)
         }
     }
 
@@ -54,6 +76,26 @@ object MatrixUtils {
                 matrix[row][col]
             }.toList()
         }.toList()
+    }
+
+    enum class SimpleDirection {
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT
+    }
+
+    fun <T> Matrix<Coordinated<T>>.move(from: Coordinated<T>, simpleDirection: SimpleDirection): Coordinated<T>? {
+        val targetCoord = from.coord.go(simpleDirection)
+        return this.flatten().find { element -> element.coord == targetCoord }
+    }
+
+    fun <T> Matrix<T>.forEachMatrixElement(transform: (element: T) -> Unit) {
+        this.forEach { row -> row.forEach { transform(it) } }
+    }
+
+    fun <T> Matrix<T>.filterMatrixElement(predicate: (element: T) -> Boolean): List<T> {
+        return this.flatten().filter{ predicate(it) }
     }
 }
 
