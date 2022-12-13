@@ -52,7 +52,7 @@ fun parseData(line: String): List<Any> {
 fun input(): List<Pair<List<Any>, List<Any>>> {
     return AoCGenerics.getInputLines("/y2022/day13/test-input.txt")
         .chunked(3)
-        .map { it ->
+        .map {
             index = 0
             val firstData = it[0]
             val secondData = it[1]
@@ -60,11 +60,32 @@ fun input(): List<Pair<List<Any>, List<Any>>> {
         }
 }
 
+fun inOrder(pair: Pair<List<Any>, List<Any>>): Boolean {
+    val first = pair.first
+    val second = pair.second
+
+
+    for (i in 0 until maxOf(first.size, second.size)) {
+        when {
+            first.size <= i -> return true
+            second.size <= i -> return false
+        }
+    }
+
+    return true
+}
 
 fun part1(): Int {
 
     val input = input()
-    return 1
+
+    return input.mapIndexedNotNull { index, pair ->
+        if (inOrder(pair)) {
+            index + 1
+        } else {
+            null
+        }
+    }.sum()
 }
 
 
