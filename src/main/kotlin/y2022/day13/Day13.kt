@@ -50,7 +50,7 @@ fun parseData(line: String): List<Any> {
 }
 
 fun input(): List<Pair<List<Any>, List<Any>>> {
-    return AoCGenerics.getInputLines("/y2022/day13/test-input.txt")
+    return AoCGenerics.getInputLines("/y2022/day13/input.txt")
         .chunked(3)
         .map {
             index = 0
@@ -60,19 +60,41 @@ fun input(): List<Pair<List<Any>, List<Any>>> {
         }
 }
 
-fun inOrder(pair: Pair<List<Any>, List<Any>>): Boolean {
-    val first = pair.first
-    val second = pair.second
+fun compareTo(a: List<Any>, b: List<Any>): Int {
+    return inOrder(Pair(a,b))
+}
+
+fun inOrder(pair: Pair<List<Any>, List<Any>>): Int {
+    val left = pair.first
+    val right = pair.second
 
 
-    for (i in 0 until maxOf(first.size, second.size)) {
+    for (i in 0 until maxOf(left.size, right.size)) {
         when {
-            first.size <= i -> return true
-            second.size <= i -> return false
+            left.size <= i -> return 1
+            right.size <= i -> return -1
+
+            left[i] is Int && right[i] is Int -> {
+                return if ((left[i] as Int) < (right[i] as Int)) {
+                    1
+                } else if ((left[i] as Int) > (right[i] as Int)) {
+                    -1
+                } else continue
+            }
+            left[i] is List<*> && right[i] is List<*> -> {
+                val x = inOrder(Pair(left[i] as List<Any>, right[i] as List<Any> ))
+                if (x != 0) return x else continue
+            }
+            left[i] is List<*> && right[i] is Int -> {
+                return inOrder(Pair(left[i] as List<Any>, listOf(right[i])))
+            }
+            left[i] is Int && right[i] is List<*> -> {
+                return inOrder(Pair(listOf(left[i]), right[i] as List<Any> ))
+            }
         }
     }
+    return 0
 
-    return true
 }
 
 fun part1(): Int {
@@ -80,7 +102,7 @@ fun part1(): Int {
     val input = input()
 
     return input.mapIndexedNotNull { index, pair ->
-        if (inOrder(pair)) {
+        if (inOrder(pair) > 0) {
             index + 1
         } else {
             null
@@ -90,6 +112,26 @@ fun part1(): Int {
 
 
 fun part2(): Int {
-    return 2
+    val test  = input().map { pair ->
+        listOf(pair.first, pair.second)
+    }.flatten().toMutableList()
+
+    val add1 = listOf(listOf(2))
+    val add2 = listOf(listOf(6))
+    test.add(add1)
+    test.add(add2)
+
+
+    val myComparator = Comparator<List<Any>> { element1, element2 ->
+        inOrder(Pair(element1, element2))
+    }
+
+    val sorted = test.sortedWith(myComparator).reversed()
+
+    val index1 = sorted.indexOf(add1) + 1
+    val index2 = sorted.indexOf(add2) + 1
+
+
+    return index1 * index2
 }
 

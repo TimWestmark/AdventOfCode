@@ -8,11 +8,11 @@ class Day13KtTest {
 
     @Test
     fun testPart1() {
-        assertEquals(0, part1())
+        assertEquals(5557, part1())
     }
 
     @Test
     fun testPart2() {
-        assertEquals(0, part2())
+        assertEquals(22425, part2())
     }
 }
