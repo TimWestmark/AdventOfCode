@@ -1,7 +1,6 @@
 package y2022.day16
 
 import AoCGenerics
-import kotlin.math.max
 
 
 fun main() {
@@ -16,11 +15,12 @@ data class Valve(
     val name: String,
     val connectedValve: List<String>,
     val distanceToNodes: MutableMap<String, Int> = mutableMapOf(),
+    var opened: Boolean = false,
     var seen: Boolean = false
 )
 
 fun input(): List<Valve> {
-    return AoCGenerics.getInputLines("/y2022/day16/input.txt").map { line ->
+    return AoCGenerics.getInputLines("/y2022/day16/test-input.txt").map { line ->
         val inputParts = line.split(" ")
         val valveName = inputParts[1]
         val flowRate = inputParts[4].split("=")[1].split(";")[0].toInt()
@@ -79,34 +79,79 @@ fun value(timeRemaining: Int, distance: Int, flowRate: Int): Int {
 
 }
 
-fun knapsackRec(w: IntArray, v: IntArray, n: Int, W: Int): Int {
-    return if (n <= 0) {
-        0
-    } else if (w[n - 1] > W) {
-        knapsackRec(w, v, n - 1, W)
-    } else {
-        max(
-            knapsackRec(w, v, n - 1, W), v[n - 1]
-                    + knapsackRec(w, v, n - 1, W - w[n - 1])
-        )
-    }
-}
 
 fun part1(): Int {
 
     val nodes = input()
 
-    val usefulStartNodes = nodes.filter { it.flowRate > 0 }
+    val usefulStartNodes = nodes.filter { it.flowRate > 0 || it.name == "AA"}
 
     calculateDistanceFromImportantNodesToImportantNodes(importantNodes = usefulStartNodes, allNodes = nodes)
 
 
+    var timeLeft = 30
+    var flowTotal = 0
+    var currentPosition = nodes.find { it.name == "AA" }!!
+    val startPosition = nodes.find { it.name == "AA" }!!
 
-    var timeIsTicking = 30
+
+    val test = currentPosition.distanceToNodes.keys.toList().permutations()
+
+    return (test).parallelStream().map { order ->
+        walkWay(startPosition, order, nodes)
+    }.toList()
+        .max()
 
 
+    while (true) {
+        val nextNode = currentPosition.distanceToNodes.keys.map {
+            val curNode = nodes.find { node -> node.name == it}!!
 
-    return 1
+            val curNodeValue = if (curNode.opened) 0 else  value(timeLeft, currentPosition.distanceToNodes[curNode.name]!!,curNode.flowRate)
+            Pair(curNode, curNodeValue)
+        }.maxBy { it.second }
+
+        if (nextNode.second == 0) {
+            break;
+        }
+
+        val timeTaken = currentPosition.distanceToNodes[nextNode.first.name]!! + 1 // distance + one to open
+        timeLeft -= timeTaken
+        flowTotal += timeLeft * nextNode.first.flowRate
+        currentPosition.opened = true
+
+        println("Going from ${currentPosition.name} to ${nextNode.first.name} | Time left: $timeLeft | Total Flow: $flowTotal")
+        currentPosition = nextNode.first
+    }
+//
+//    return flowTotal
+}
+
+fun walkWay(start: Valve, order: List<String>, allNodes: List<Valve>): Int {
+    var timeLeft = 30
+    var flowTotal = 0
+
+    var currentNode = start
+
+    for(nextNodeName in order)  {
+        val nextNode = allNodes.find { it.name == nextNodeName }!!
+        val timeTaken = currentNode.distanceToNodes[nextNode.name]!! + 1
+
+        if (timeLeft-timeTaken <=0) break
+        timeLeft -= timeTaken
+        flowTotal += timeLeft * nextNode.flowRate
+        currentNode = nextNode
+    }
+
+    return flowTotal
+}
+
+fun <T> List<T>.permutations(): List<List<T>> = if(isEmpty()) listOf(emptyList()) else  mutableListOf<List<T>>().also{result ->
+    for(i in this.indices){
+        (this - this[i]).permutations().forEach{
+            result.add(it + this[i])
+        }
+    }
 }
 
 
