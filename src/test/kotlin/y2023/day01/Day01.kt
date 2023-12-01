@@ -1,0 +1,18 @@
+package y2023.day01
+
+import org.junit.jupiter.api.Test
+
+import org.junit.jupiter.api.Assertions.*
+
+class Day01KtTest {
+
+    @Test
+    fun testPart1() {
+        assertEquals(54951, part1())
+    }
+
+    @Test
+    fun testPart2() {
+        assertEquals(55218, part2())
+    }
+}
