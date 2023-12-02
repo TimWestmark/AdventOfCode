@@ -37,15 +37,12 @@ fun input(): List<Game> {
     }
 }
 
-fun Game.valid(): Boolean {
-    return this.blue <= 14 && this.green <= 13 && this.red <= 12
-}
+fun Game.valid() = this.blue <= 14 && this.green <= 13 && this.red <= 12
 
-fun part1(): Int {
-    return input().sumOf {
+fun part1() = input().sumOf {
         if (it.valid()) it.id else 0
     }
-}
+
 
 fun part2() =
     input().sumOf {
