@@ -32,14 +32,30 @@ data class Coord(
 
 fun Coord.left() = Coord(x - 1, y)
 fun Coord.right() = Coord(x + 1, y)
-fun Coord.up() = Coord(x, y + 1)
-fun Coord.down() = Coord(x, y - 1)
+fun Coord.up() = Coord(x, y - 1)
+fun Coord.down() = Coord(x, y + 1)
+fun Coord.leftUp() = Coord(x-1, y - 1)
+fun Coord.leftDown() = Coord(x-1, y + 1)
+fun Coord.rightUp() = Coord(x+1, y - 1)
+fun Coord.rightDown() = Coord(x+1, y + 1)
+
 
 fun Coord.go(move: MatrixUtils.SimpleDirection) = when (move) {
     MatrixUtils.SimpleDirection.UP -> this.up()
     MatrixUtils.SimpleDirection.DOWN -> this.down()
     MatrixUtils.SimpleDirection.LEFT -> this.left()
     MatrixUtils.SimpleDirection.RIGHT -> this.right()
+}
+
+fun Coord.go(move: MatrixUtils.AdvancedDirection) = when (move) {
+    MatrixUtils.AdvancedDirection.UP -> this.up()
+    MatrixUtils.AdvancedDirection.DOWN -> this.down()
+    MatrixUtils.AdvancedDirection.LEFT -> this.left()
+    MatrixUtils.AdvancedDirection.RIGHT -> this.right()
+    MatrixUtils.AdvancedDirection.LEFT_UP -> this.leftUp()
+    MatrixUtils.AdvancedDirection.LEFT_DOWN -> this.leftDown()
+    MatrixUtils.AdvancedDirection.RIGHT_UP -> this.rightUp()
+    MatrixUtils.AdvancedDirection.RIGHT_DOWN -> this.rightDown()
 }
 
 data class Coordinated<T> (
@@ -85,8 +101,24 @@ object MatrixUtils {
         RIGHT
     }
 
+    enum class AdvancedDirection {
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT,
+        LEFT_UP,
+        LEFT_DOWN,
+        RIGHT_UP,
+        RIGHT_DOWN
+    }
+
     fun <T> Matrix<Coordinated<T>>.move(from: Coordinated<T>, simpleDirection: SimpleDirection): Coordinated<T>? {
         val targetCoord = from.coord.go(simpleDirection)
+        return this.flatten().find { element -> element.coord == targetCoord }
+    }
+
+    fun <T> Matrix<Coordinated<T>>.move(from: Coordinated<T>, advancedDirection: AdvancedDirection): Coordinated<T>? {
+        val targetCoord = from.coord.go(advancedDirection)
         return this.flatten().find { element -> element.coord == targetCoord }
     }
 
