@@ -21,6 +21,31 @@ object AoCGenerics {
     }
 }
 
+object NumberStuff {
+
+    // Thanks https://www.baeldung.com/kotlin/lcm
+    fun findLCMOfListOfNumbers(numbers: List<Long>): Long {
+        var result = numbers[0]
+        for (i in 1 until numbers.size) {
+            result = findLCM(result, numbers[i])
+        }
+        return result
+    }
+
+    fun findLCM(a: Long, b: Long): Long {
+        val larger = if (a > b) a else b
+        val maxLcm = a * b
+        var lcm = larger
+        while (lcm <= maxLcm) {
+            if ((lcm % a).toInt() == 0 && (lcm % b).toInt() == 0) {
+                return lcm
+            }
+            lcm += larger
+        }
+        return maxLcm
+    }
+}
+
 
 
 typealias Matrix<T> = List<List<T>>
