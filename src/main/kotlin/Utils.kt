@@ -1,3 +1,4 @@
+import kotlin.math.abs
 import kotlin.system.measureTimeMillis
 
 
@@ -47,13 +48,15 @@ object NumberStuff {
 }
 
 
-
 typealias Matrix<T> = List<List<T>>
 
 data class Coord(
     val x: Int,
     val y: Int,
 )
+
+fun Coord.distance(other: Coord): Long =
+    (abs(other.x - x) + abs(other.y - y) ).toLong()
 
 fun Coord.left() = Coord(x - 1, y)
 fun Coord.right() = Coord(x + 1, y)
