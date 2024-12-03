@@ -12,13 +12,11 @@ fun input(): List<String> {
 }
 
 fun calculateSum(operations: List<String>): Int {
-    var sum = 0
-    operations.forEach { line ->
+    return operations.sumOf { line ->
         val numb1 = line.split("(")[1].split(",")[0].toInt()
         val numb2 = line.split(",")[1].split(")")[0].toInt()
-        sum += numb2 * numb1
+        numb2 * numb1
     }
-    return sum
 }
 
 fun part1(): Int {
