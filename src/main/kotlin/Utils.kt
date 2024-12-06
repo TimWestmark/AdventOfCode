@@ -165,5 +165,10 @@ object MatrixUtils {
     fun <T> Matrix<T>.createDeepCopy(copyFunction: (T) -> T): Matrix<T> {
         return this.map { innerList -> innerList.map(copyFunction) }
     }
+
+    fun <T> Matrix<T>.print(print: (T) -> Unit): Unit {
+        return this.forEach { row -> row.forEach(print)
+            println() }
+    }
 }
 

@@ -3,7 +3,6 @@ package y2024.day06
 import Coord
 import Matrix
 import MatrixUtils.createDeepCopy
-import MatrixUtils.forEachMatrixElement
 import MatrixUtils.forEachMatrixElementParallel
 import go
 
@@ -34,7 +33,6 @@ data class Tile(val coord: Coord, var isObstacle: Boolean)
 fun part1(): Int {
     val map = input().first
     var guardianPostition = input().second
-
 
     var guardianDirection = MatrixUtils.SimpleDirection.UP
     val visited = mutableSetOf(guardianPostition)
@@ -86,16 +84,6 @@ fun isGuardianStuckInLoop(map: Matrix<Tile>, guardianStart: Coord): Boolean {
     } while (true)
 
     return false
-}
-
-// just for Debugging
-fun printMap(matrix: Matrix<Tile>) {
-    matrix.forEach { row ->
-        row.forEach { tile ->
-            print(if (tile.isObstacle) "#" else ".")
-        }
-        println()
-    }
 }
 
 fun part2(): Int {
