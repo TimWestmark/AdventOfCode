@@ -154,8 +154,16 @@ object MatrixUtils {
         this.forEach { row -> row.forEach { transform(it) } }
     }
 
+    fun <T> Matrix<T>.forEachMatrixElementParallel(transform: (element: T) -> Unit) {
+        this.parallelStream().forEach { row -> row.parallelStream().forEach { transform(it) } }
+    }
+
     fun <T> Matrix<T>.filterMatrixElement(predicate: (element: T) -> Boolean): List<T> {
         return this.flatten().filter{ predicate(it) }
+    }
+
+    fun <T> Matrix<T>.createDeepCopy(copyFunction: (T) -> T): Matrix<T> {
+        return this.map { innerList -> innerList.map(copyFunction) }
     }
 }
 
