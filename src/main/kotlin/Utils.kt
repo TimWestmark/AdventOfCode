@@ -1,3 +1,7 @@
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.runBlocking
 import kotlin.math.abs
 import kotlin.system.measureTimeMillis
 
@@ -47,6 +51,22 @@ object NumberStuff {
     }
 }
 
+object StringStuff {
+
+    fun generateStringCombinations(elements: List<String>, length: Int): List<List<String>> {
+        if (length == 0) return listOf(emptyList())
+        val smallerCombinations = generateStringCombinations(elements, length - 1)
+        return smallerCombinations.flatMap { combo ->
+            elements.map { operator -> combo + operator }
+        }
+    }
+}
+
+object Coroutines {
+    fun <A, B>List<A>.parallelMap(f: suspend (A) -> B): List<B> = runBlocking {
+        map { async(Dispatchers.Default) { f(it) } }.awaitAll()
+    }
+}
 
 typealias Matrix<T> = List<List<T>>
 
@@ -166,7 +186,7 @@ object MatrixUtils {
         return this.map { innerList -> innerList.map(copyFunction) }
     }
 
-    fun <T> Matrix<T>.print(print: (T) -> Unit): Unit {
+    fun <T> Matrix<T>.print(print: (T) -> Unit) {
         return this.forEach { row -> row.forEach(print)
             println() }
     }
